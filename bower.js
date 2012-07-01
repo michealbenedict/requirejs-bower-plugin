@@ -8,8 +8,11 @@ define('bower', ['text!browser.json'], function ( opts ) {
         'paths': {}
       };
 
-  console.log(app);
-
+  // A better way to build paths config for all dependencies
+  // Example: Backbone depends on Underscore, jQuery
+  // what if user has no included underscore in his browser.json
+  // Todo: Automatically resolve dependencies of dependencies
+  // and add it to the config paths
   for ( prop in dependencies ) {
     if( !dependencies.hasOwnProperty( prop ) ) return;
     if ( app.paths[prop] ) {
@@ -19,7 +22,7 @@ define('bower', ['text!browser.json'], function ( opts ) {
     }
   }
 
+  // Need to write a much robust solution with error checking
   require.config(config)
-
   require({'baseUrl': app.baseUrl}, app.start)
 });
